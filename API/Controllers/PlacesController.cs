@@ -11,26 +11,27 @@ namespace API.Controllers
     public class PlacesController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Place>>> GetPlaces()
+        public async Task<IActionResult> GetPlaces()
         {
-            return await Mediator.Send(new List.Query());
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
 
          [HttpGet("{id}")]
-        public async Task<ActionResult<Place>> GetPlace(Guid id)
+        public async Task<IActionResult> GetPlace(Guid id)
         {
-            return await Mediator.Send(new Details.Query{Id = id});
+            return HandleResult(await Mediator.Send(new Details.Query{Id = id}));
         }
+
          [HttpPost]
-        public async Task<ActionResult<Unit>> CreatePlace(Place Place)
+        public async Task<IActionResult> CreatePlace(Place Place)
         {
-            return await Mediator.Send(new Create.Command{Place = Place});
+            return HandleResult(await Mediator.Send(new Create.Command{Place = Place}));
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> EditPlace(Guid id,Place place)
         {
             place.Id = id;
-            return Ok(await Mediator.Send(new Edit.Command{Place = place}));
+            return HandleResult(await Mediator.Send(new Edit.Command{Place = place}));
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlace(Guid id)

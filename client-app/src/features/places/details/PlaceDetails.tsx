@@ -2,8 +2,12 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Button, Card, Grid, Image } from 'semantic-ui-react'
 import { useStore } from '../../../app/stores/store';
+import PlaceDetailedChat from './PlaceDetailedChat';
+import PlaceDetailedHeader from './PlaceDetailedHeader';
+import PlaceDetailedInfo from './PlaceDetailedInfo';
+import PlaceDetailedSideBar from './PlaceDetailedSideBar';
 
 export default observer( function PlaceDetails() {
 
@@ -16,24 +20,16 @@ export default observer( function PlaceDetails() {
     }, [id,loadPlace]);
 
     return (
-          <Card fluid>
-      
-              <Card.Content>
-                <Card.Header>{place?.name}</Card.Header>
-                <Card.Meta>
-                  <span >{place?.date}</span>
-                </Card.Meta>
-                <Card.Description>
-                  {place?.description}
-                </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                <Button.Group widths='2'>
-                <Button as={Link} to={`/manage/${place?.id}`} basic color='blue' content='Edit'/>
-                <Button as={Link} to={'/places'} basic color='grey' content='Cancel'/>
+          <Grid>
+            <Grid.Column width={10}>
+              <PlaceDetailedHeader place={place!}/>
+              <PlaceDetailedInfo place={place!}/>
+              <PlaceDetailedChat/>
 
-                </Button.Group>
-              </Card.Content>
-    </Card>
+            </Grid.Column>
+            <Grid.Column width={6}>
+              <PlaceDetailedSideBar/>
+            </Grid.Column>
+          </Grid>
     )
 })

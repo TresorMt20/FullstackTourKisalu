@@ -12,6 +12,7 @@ export default function NavBar() {
                     Show place
                 </Menu.Item>
                 <Menu.Item as={NavLink} to='/places' name='Places' />
+                <Menu.Item as={NavLink} to='/errors' name='Errors' />
                 <Menu.Item>
                     <Button as={NavLink} to='/createPlace' positive content='Create Place'/>
 

@@ -1,7 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import { Grid } from 'semantic-ui-react'
+import LoadingComponent from '../../../app/layout/LoadingComponent'
 import { useStore } from '../../../app/stores/store'
+import PlaceFilters from './PlaceFilters'
 import PlaceList from './PlaceList'
 
 export default observer( function PlaceDashboard() {
@@ -13,6 +15,8 @@ export default observer( function PlaceDashboard() {
       if(placeRegistry.size === 0) loadPlaces();
     }, [placeRegistry.size, loadPlaces])
 
+    if(placeStore.loadingInitial) return <LoadingComponent content='Loading app'/>
+
 
     return (
         <Grid>
@@ -21,7 +25,7 @@ export default observer( function PlaceDashboard() {
                     />
             </Grid.Column>
             <Grid.Column width='6'>
-                <h2>Activity filters</h2>
+                <PlaceFilters/>
 
             </Grid.Column>
         </Grid>

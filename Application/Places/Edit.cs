@@ -7,13 +7,14 @@ using Domain;
 using MediatR;
 using Persistence;
 using AutoMapper;
+using Application.Core;
 
 namespace Application.Places
 {
     public class Edit
     {
-        public class Command : IRequest<Unit> { public Place Place { get; set; } }
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Command : IRequest<Result<Unit>> { public Place Place { get; set; } }
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -22,15 +23,19 @@ namespace Application.Places
                _mapper = mapper;
                _context = context;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var place = await _context.Places.FindAsync(request.Place.Id);
 
+                if(place == null) return null;
+
                 _mapper.Map(request.Place, place);
 
-                await _context.SaveChangesAsync();
+               var result= await _context.SaveChangesAsync() > 0;
 
-                return Unit.Value;
+                if(!result) return Result<Unit>.Failure("Failed to update place");
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }
