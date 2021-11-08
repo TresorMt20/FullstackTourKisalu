@@ -8,12 +8,18 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { store, StoreContext } from './app/stores/store';
 import 'react-calendar/dist/Calendar.css';
+import {createBrowserHistory} from 'history';
+import ScrollToTop from './app/layout/ScrollToTop';
+import { Router } from 'react-router-dom';
+
+export const history = createBrowserHistory();
 
 ReactDOM.render(
     <StoreContext.Provider value={store}>
-    <BrowserRouter>
-    <App/>
-    </BrowserRouter>
+    <Router history={history}>
+      <ScrollToTop />
+      <App />
+    </Router>
 
   </StoreContext.Provider>,
   document.getElementById('root')

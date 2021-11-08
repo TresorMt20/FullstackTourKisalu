@@ -5,9 +5,11 @@ using Application.Places;
 using System.Collections.Generic;
 using Domain;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+  //  [AllowAnonymous]
     public class PlacesController : BaseApiController
     {
         [HttpGet]

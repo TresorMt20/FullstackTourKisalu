@@ -15,7 +15,7 @@ export default observer( function PlaceDashboard() {
       if(placeRegistry.size === 0) loadPlaces();
     }, [placeRegistry.size, loadPlaces])
 
-    if(placeStore.loadingInitial) return <LoadingComponent content='Loading app'/>
+    if(placeStore.loadingInitial) return <LoadingComponent content='Loading places...'/>
 
 
     return (
