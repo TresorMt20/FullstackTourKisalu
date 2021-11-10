@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-  //  [AllowAnonymous]
+   [AllowAnonymous]
     public class PlacesController : BaseApiController
     {
         [HttpGet]
