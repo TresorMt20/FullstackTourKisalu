@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,19 +13,26 @@ namespace Application.Places
 {
     public class List
     {
-        public class Query:IRequest<Result<List<Place>>>{}
+        public class Query:IRequest<Result<List<PlaceDto>>>{}
 
-        public class Handler : IRequestHandler<Query, Result<List<Place>>>
+        public class Handler : IRequestHandler<Query, Result<List<PlaceDto>>>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IMapper _mapper ;
+            public Handler(DataContext context,IMapper mapper)
             {
+                _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<Result<List<Place>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<PlaceDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                  return Result<List<Place>>.Success(await _context.Places.ToListAsync());
+                var places = await _context.Places
+                .ProjectTo<PlaceDto>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+
+                
+                  return Result<List<PlaceDto>>.Success(places);
             }
         }
     }

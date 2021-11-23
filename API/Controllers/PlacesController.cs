@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-   [AllowAnonymous]
+  // [AllowAnonymous]
     public class PlacesController : BaseApiController
     {
         [HttpGet]
@@ -39,6 +39,12 @@ namespace API.Controllers
         public async Task<IActionResult> DeletePlace(Guid id)
         {
             return Ok(await Mediator.Send(new Delete.Command{Id = id}));
+        }
+
+        [HttpPost("{id}/attend")]
+        public async Task<IActionResult> Attend(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateAttendance.Command{Id = id}));
         }
     }
 }

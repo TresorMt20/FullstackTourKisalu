@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-
-namespace Domain
+using Application.Profiles;
+namespace Application.Places
 {
-    public class Place
+    public class PlaceDto
     {
-        public Guid Id { get; set; }
+         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Category { get; set; }
         public string Country { get; set; }
@@ -13,8 +13,8 @@ namespace Domain
         public string Continent { get; set; }
         public string Description { get; set; }
         public DateTime  Date { get; set; }
-        public bool IsCancelled { get; set; }  
-        public ICollection<PlaceAttendee> Attendees { get; set; } = new List<PlaceAttendee>();
-        
+        public string HostUsername { get; set; }
+        public bool IsCancelled { get; set; }
+        public ICollection<Profile> Attendees { get; set; } 
     }
 }
